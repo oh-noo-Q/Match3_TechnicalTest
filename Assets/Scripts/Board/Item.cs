@@ -22,7 +22,17 @@ public class Item
             if (prefab)
             {
                 View = GameObject.Instantiate(prefab).transform;
+                
             }
+        }
+    }
+
+    public virtual void SetSkin(Sprite skin)
+    {
+        if (skin != null)
+        {
+            SpriteRenderer spriteRenderer = View.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = skin;
         }
     }
 

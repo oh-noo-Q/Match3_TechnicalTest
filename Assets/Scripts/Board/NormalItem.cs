@@ -59,4 +59,35 @@ public class NormalItem : Item
 
         return it != null && it.ItemType == this.ItemType;
     }
+
+    public int GetIndexSprite()
+    {
+        int index = -1;
+        switch (ItemType)
+        {
+            case eNormalType.TYPE_ONE:
+                index = 0;
+                break;
+            case eNormalType.TYPE_TWO:
+                index = 1;
+                break;
+            case eNormalType.TYPE_THREE:
+                index = 2;
+                break;
+            case eNormalType.TYPE_FOUR:
+                index = 3;
+                break;
+            case eNormalType.TYPE_FIVE:
+                index = 4;
+                break;
+            case eNormalType.TYPE_SIX:
+                index = 5;
+                break;
+            case eNormalType.TYPE_SEVEN:
+                index = 6;
+                break;
+        }
+
+        return index;
+    }
 }

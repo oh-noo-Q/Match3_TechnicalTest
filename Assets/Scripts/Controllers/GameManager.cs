@@ -45,6 +45,10 @@ public class GameManager : MonoBehaviour
 
     private LevelCondition m_levelCondition;
 
+    private SkinItemManagerSO m_skinItemManager;
+
+    [SerializeField] TypeSkin typeSkin;
+
     private void Awake()
     {
         State = eStateGame.SETUP;
@@ -53,6 +57,23 @@ public class GameManager : MonoBehaviour
 
         m_uiMenu = FindObjectOfType<UIMainManager>();
         m_uiMenu.Setup(this);
+
+        m_skinItemManager = Resources.Load<SkinItemManagerSO>(Constants.SKIN_ITEM_MANAGER_PATH);
+        foreach(var skinItem in m_skinItemManager.skinItems)
+        {
+            if(skinItem.type == typeSkin)
+            {
+                for(int i = 0; i < skinItem.sprites.Length; i++)
+                {
+                    GameObject prefab = Resources.Load<GameObject>($"{Constants.ITEM_PREFAB_PATH}{( i + 1 )}");
+                    if(prefab)
+                    {
+                        prefab.GetComponent<SpriteRenderer>().sprite = skinItem.sprites[i];
+                    }
+                }
+                break;
+            }
+        }
     }
 
     void Start()
