@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: SkinItemManager
   m_EditorClassIdentifier: 
   skinItems:
+  - type: 0
+    sprites:
+    - {fileID: 21300000, guid: e5fea27bcfb023d4fa4f7b314a1e468f, type: 3}
+    - {fileID: 21300000, guid: fa170d4df6f61ca4d87906fecd033754, type: 3}
+    - {fileID: 21300000, guid: ad0255438bdaee746942172f60838326, type: 3}
+    - {fileID: 21300000, guid: 5ead70314c8057e4fbad1171b57e2285, type: 3}
+    - {fileID: 21300000, guid: 4aade970bd310bf41999ff1d6929698d, type: 3}
+    - {fileID: 21300000, guid: 9155563869121a64691c05bc3ca52e14, type: 3}
+    - {fileID: 21300000, guid: 7164e9eb7829dfb4595431d2eb01fc76, type: 3}
   - type: 1
     sprites:
     - {fileID: 21300000, guid: c12cdac060bca1648873faff065f85e8, type: 3}

@@ -167,13 +167,16 @@ public class Board
                 if (!cell.IsEmpty)
                 {
                     NormalItem normalItem = cell.Item as NormalItem;
-                    if (amountTypeOnBoard.ContainsKey(normalItem.ItemType))
+                    if (normalItem != null)
                     {
-                        amountTypeOnBoard[normalItem.ItemType]++;
-                    }
-                    else
-                    {
-                        amountTypeOnBoard.Add(normalItem.ItemType, 1);
+                        if (amountTypeOnBoard.ContainsKey(normalItem.ItemType))
+                        {
+                            amountTypeOnBoard[normalItem.ItemType]++;
+                        }
+                        else
+                        {
+                            amountTypeOnBoard.Add(normalItem.ItemType, 1);
+                        }
                     }
                 }
             }
