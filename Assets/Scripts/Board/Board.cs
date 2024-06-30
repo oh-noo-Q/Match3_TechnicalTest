@@ -137,17 +137,87 @@ public class Board
 
 
     internal void FillGapsWithNewItems()
-    {
+    { 
+        //for (int x = 0; x < boardSizeX; x++)
+        //{
+        //    for (int y = 0; y < boardSizeY; y++)
+        //    {
+        //        Cell cell = m_cells[x, y];
+        //        if (!cell.IsEmpty) continue;
+
+        //        NormalItem item = new NormalItem();
+
+        //        item.SetType(Utils.GetRandomNormalType());
+        //        item.SetView();
+        //        item.SetViewRoot(m_root);
+
+        //        cell.Assign(item);
+        //        cell.ApplyItemPosition(true);
+        //    }
+        //}
+
+        // Update test code
+        // Get min type on board
+        Dictionary<NormalItem.eNormalType, int> amountTypeOnBoard = new Dictionary<NormalItem.eNormalType, int>();
+        for (int x = 0; x < boardSizeX; x++)
+        {
+            for (int y = 0; y < boardSizeY; y++)
+            {
+                Cell cell = m_cells[x, y];
+                if (!cell.IsEmpty)
+                {
+                    NormalItem normalItem = cell.Item as NormalItem;
+                    if (amountTypeOnBoard.ContainsKey(normalItem.ItemType))
+                    {
+                        amountTypeOnBoard[normalItem.ItemType]++;
+                    }
+                    else
+                    {
+                        amountTypeOnBoard.Add(normalItem.ItemType, 1);
+                    }
+                }
+            }
+        }
+        Array values = Enum.GetValues(typeof(NormalItem.eNormalType));
+        foreach(var type in values)
+        {
+            if(!amountTypeOnBoard.ContainsKey((NormalItem.eNormalType)type))
+            {
+                amountTypeOnBoard.Add((NormalItem.eNormalType)type, 0);
+            }
+        }
+
+        // Generate new item 
+        List<NormalItem.eNormalType> surroundTypes = new List<NormalItem.eNormalType>();
+
         for (int x = 0; x < boardSizeX; x++)
         {
             for (int y = 0; y < boardSizeY; y++)
             {
                 Cell cell = m_cells[x, y];
                 if (!cell.IsEmpty) continue;
-
+                surroundTypes.Clear();
+                if(cell.NeighbourBottom != null && cell.NeighbourBottom.Item != null)
+                {
+                    surroundTypes.Add((cell.NeighbourBottom.Item as NormalItem).ItemType);
+                }
+                if (cell.NeighbourLeft != null && cell.NeighbourLeft.Item != null)
+                {
+                    surroundTypes.Add((cell.NeighbourLeft.Item as NormalItem).ItemType);
+                }
+                if (cell.NeighbourRight != null && cell.NeighbourRight.Item != null)
+                {
+                    surroundTypes.Add((cell.NeighbourRight.Item as NormalItem).ItemType);
+                }
+                if (cell.NeighbourUp != null && cell.NeighbourUp.Item != null)
+                {
+                    surroundTypes.Add((cell.NeighbourUp.Item as NormalItem).ItemType);
+                }
+                NormalItem.eNormalType minType = GetMinType(amountTypeOnBoard, surroundTypes);
+                amountTypeOnBoard[minType]++;
                 NormalItem item = new NormalItem();
 
-                item.SetType(Utils.GetRandomNormalType());
+                item.SetType(minType);
                 item.SetView();
                 item.SetViewRoot(m_root);
 
@@ -155,6 +225,22 @@ public class Board
                 cell.ApplyItemPosition(true);
             }
         }
+    }
+
+    NormalItem.eNormalType GetMinType(Dictionary<NormalItem.eNormalType, int> amountTypeOnBoard, List<NormalItem.eNormalType> surroundTypes)
+    {
+        int count = int.MaxValue;
+        NormalItem.eNormalType minType = NormalItem.eNormalType.TYPE_ONE;
+        foreach(var countItem in amountTypeOnBoard)
+        {
+            if(!surroundTypes.Contains(countItem.Key) && count > countItem.Value)
+            {
+                count = countItem.Value;
+                minType = countItem.Key;
+            }
+        }
+
+        return minType;
     }
 
     internal void ExplodeAllItems()
